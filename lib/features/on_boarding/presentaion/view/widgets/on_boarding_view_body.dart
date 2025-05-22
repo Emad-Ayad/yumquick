@@ -46,6 +46,9 @@ class _OnboardingScreenState extends State<OnBoardingViewBody> {
 
   @override
   Widget build(BuildContext context) {
+    final height=MediaQuery.sizeOf(context).height;
+    final width=MediaQuery.sizeOf(context).width;
+
     return Scaffold(
       backgroundColor: Colors.orange[100],
       body: SafeArea(
@@ -57,71 +60,76 @@ class _OnboardingScreenState extends State<OnBoardingViewBody> {
               itemCount: onboardingData.length,
               itemBuilder: (context, index) {
                 final data = onboardingData[index];
-                return Column(
+                return Stack(
                   children: [
-                    Expanded(
-                      child: Image.asset(
-                        data["image"]!,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                      ),
+                    Image.asset(
+                      data["image"]!,
+                      fit: BoxFit.cover,
+                      width: width,
+                      height: height,
                     ),
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 24, vertical: 30),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                            BorderRadius.vertical(top: Radius.circular(30)),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.receipt_long,
-                              size: 40, color: Colors.orange),
-                          SizedBox(height: 10),
-                          Text(
-                            data["title"]!,
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.orange),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            data["description"]!,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 14, color: Colors.grey[700]),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: SmoothPageIndicator(
-                              controller: _controller,
-                              count: onboardingData.length,
-                              effect: WormEffect(
-                                dotColor: Colors.orange.shade200,
-                                activeDotColor: Colors.orange,
-                                dotHeight: 8,
-                                dotWidth: 8,
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: height*0.4,
+                        padding:
+                            EdgeInsets.only(top: 24, right: 30,left: 30),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(30)),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Icons.receipt_long,
+                                size: 40, color: Colors.orange),
+                            SizedBox(height: 10),
+                            Text(
+                              data["title"]!,
+                              style: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.orange),
+                            ),
+                            SizedBox(height: 4),
+                            Text(
+                              data["description"]!,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 14, color: Colors.grey[700]),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: SmoothPageIndicator(
+                                controller: _controller,
+                                count: onboardingData.length,
+                                effect: WormEffect(
+                                  dotColor: Colors.orange.shade200,
+                                  activeDotColor: Colors.orange,
+                                  dotHeight: 8,
+                                  dotWidth: 8,
+                                ),
                               ),
                             ),
-                          ),
-                          SizedBox(height: 5),
-                          ElevatedButton(
-                            onPressed: nextPage,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.orange,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              minimumSize: Size(double.infinity, 45),
-                            ),
-                            child: Text(
-                                currentPage == 2 ? "Get Started" : "Next"),
-                          )
-                        ],
+                            SizedBox(height: 5),
+                            ElevatedButton(
+                              onPressed: nextPage,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20)),
+                                minimumSize: Size(double.infinity, 45),
+                              ),
+                              child: Text(
+                                  currentPage == 2 ? "Get Started" : "Next"),
+                            )
+                          ],
+                        ),
                       ),
-                    )
+                    ),
                   ],
                 );
               },
